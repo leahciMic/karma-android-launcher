@@ -76,14 +76,12 @@ var AndroidBrowser = function(baseBrowserDecorator, script, args) {
   }
 
   if (!args.shutdownEmulator) {
-    console.log('DO NOT KILL EMULATOR');
     // do not shutdown the emulator when finished
     // handy if you're running more than one browser or test and do not wish
     // to wait for the emulator to bootup each time
     var killingPromise;
-    console.log(self.kill.toString());
-    console.log(self.forceKill.toString());
-    console.log(self);
+
+    debug('Disabling kill methods');
 
     self.kill = function() {
       if (killingPromise) {
@@ -108,6 +106,7 @@ var AndroidBrowser = function(baseBrowserDecorator, script, args) {
   self.name = script;
 
   self._start = function(url) {
+    debug('Starting browser');
     ezspawn('adb -e devices').then(function(re) {
       if (!re.stdout.match(/emulator-\d+/)) {
         // she's not running :()
