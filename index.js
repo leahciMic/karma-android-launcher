@@ -3,53 +3,7 @@ var bluebird = require('bluebird');
 var split = require('split');
 var debug = require('debug')('karma-android-launcher:debug');
 var warn = require('debug')('karma-android-launcher:warn');
-
-var ezspawn = function(cmd, waitForProcess) {
-  debug('Execute: ' + cmd);
-  if (typeof waitForProcess === 'undefined') {
-    waitForProcess = true;
-  }
-
-  var args = cmd.split(' ');
-  var exe = args.shift();
-
-  var proc = spawn(exe, args);
-
-  if (waitForProcess) {
-    debug('Waiting for ' + cmd + ' to finish');
-    var stdoutBuffer = '';
-    var stderrBuffer = '';
-
-    proc.stdout.on('data', function(data) {
-      debug('stdout: ' + data);
-      stdoutBuffer += data;
-    });
-
-    proc.stderr.on('data', function(data) {
-      warn('stderr: ' + data);
-      stderrBuffer += data;
-    });
-
-    return new bluebird.Promise(function(resolve, reject) {
-      proc.on('close', function(exitCode) {
-        debug(cmd + ' completed with exit code: ' + exitCode);
-        var result = {
-          code: exitCode,
-          stdout: stdoutBuffer,
-          stderr: stderrBuffer
-        };
-
-        if (exitCode === 0) {
-          return resolve(result);
-        }
-
-        return reject(result);
-      });
-    });
-  }
-
-  return new bluebird.resolve(proc);
-};
+var ezspawn = require('ezspawn');
 
 var spawnAndWaitFor = function(cmd, regex) {
   debug('launching ' + cmd + ' and waiting for output that matches ' + regex);
