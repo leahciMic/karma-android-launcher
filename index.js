@@ -27,6 +27,7 @@ var AndroidBrowser = function(baseBrowserDecorator, script, args) {
     var deviceId = deviceStarted.then(function(device) {
       return device.id;
     });
+
     return deviceId.then(function(deviceID) {
       var packageName = self.className.split('/')[0];
       var apkURL = (packageName === 'com.android.chrome' ?
@@ -39,7 +40,7 @@ var AndroidBrowser = function(baseBrowserDecorator, script, args) {
       return androidCtrl.ensureReady(deviceID)
         .then(androidCtrl.thenPowerOn(deviceID))
         .then(androidCtrl.thenUnlock(deviceID))
-        .then(androidCtrl.thenIsInstalled(packageName))
+        .then(androidCtrl.thenIsInstalled(deviceID, packageName))
         .then(function(isInstalled) {
           if (isInstalled) {
             return;
