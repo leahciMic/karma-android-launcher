@@ -51,7 +51,7 @@ var AndroidBrowser = function(baseBrowserDecorator, script, args) {
             stream.on('finish', function() {
               resolve(stream.filename);
             });
-          }).then(androidCtrl.install);
+          }).then(androidCtrl.install.bind(androidCtrl));
         })
         .then(androidCtrl.thenAdb(
           self.deviceId,
