@@ -3,6 +3,7 @@ var debug = require('debug')('karma-android-launcher:debug');
 var warn = require('debug')('karma-android-launcher:warn');
 var androidCtrl = require('androidctrl');
 var thenerize = require('thenerize');
+var os = require('os');
 var persistRequest = require('persist-request')(os.tmpdir());
 var fs = require('fs');
 var tmp = require('tmp');
