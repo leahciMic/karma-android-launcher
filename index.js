@@ -47,7 +47,7 @@ var AndroidBrowser = function(baseBrowserDecorator, script, args) {
           }
 
           return new Promise(function(resolve) {
-            var stream = persistRequest(apkURL);
+            var stream = persistRequest.get(apkURL);
             stream.on('finish', function() {
               resolve(stream.filename);
             });
