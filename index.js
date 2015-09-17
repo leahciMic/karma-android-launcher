@@ -52,7 +52,7 @@ var AndroidBrowser = function(baseBrowserDecorator, script, args) {
             debug('getting ' + apkURL);
             var stream = persistRequest.get(apkURL);
             stream.on('data', function(data) {
-              verbose('received ' + data + ' bytes');
+              verbose('received ' + data.length + ' bytes');
             });
             stream.on('finish', function() {
               debug('stream finished, resolving with filename');
