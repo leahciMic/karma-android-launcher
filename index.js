@@ -1,6 +1,7 @@
 var Promise = require('bluebird');
 var debug = require('debug')('karma-android-launcher:debug');
 var warn = require('debug')('karma-android-launcher:warn');
+var verbose = require('debug')('karma-android-launcher:verbose');
 var androidCtrl = require('androidctrl');
 var thenerize = require('thenerize');
 var os = require('os');
@@ -43,12 +44,18 @@ var AndroidBrowser = function(baseBrowserDecorator, script, args) {
         .then(androidCtrl.thenIsInstalled(deviceID, packageName))
         .then(function(isInstalled) {
           if (isInstalled) {
+            debug('already installed');
             return;
           }
 
           return new Promise(function(resolve) {
+            debug('getting ' + apkURL);
             var stream = persistRequest.get(apkURL);
+            stream.on('data', function(data) {
+              verbose('received ' + data + ' bytes');
+            });
             stream.on('finish', function() {
+              debug('stream finished, resolving with filename');
               resolve(stream.filename);
             });
           }).then(androidCtrl.install.bind(androidCtrl));
