@@ -51,14 +51,10 @@ var AndroidBrowser = function(baseBrowserDecorator, script, args) {
           return new Promise(function(resolve) {
             debug('getting ' + apkURL);
             var stream = persistRequest.get(apkURL);
-            stream.on('data', function(data) {
-              verbose('received ' + data.length + ' bytes');
+            stream.on('cacheFile', function(filename) {
+              resolve(filename);
             });
-            stream.on('finish', function() {
-              debug('stream finished, resolving with filename');
-              resolve(stream.filename);
-            });
-          }).then(androidCtrl.install.bind(androidCtrl));
+          }).then(androidCtrl.install.bind(androidCtrl, deviceID));
         })
         .then(androidCtrl.thenAdb(
           self.deviceId,
