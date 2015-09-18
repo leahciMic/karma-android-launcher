@@ -23,6 +23,23 @@ var AndroidBrowser = function(baseBrowserDecorator, script, args) {
   self.deviceId = undefined;
   self.name = script;
 
+  self.removeListener('kill', self._events.kill);
+
+  self.on('kill', function() {
+    if (!self.deviceId) {
+      warn('No device to kill');
+      // no emulator to kill
+      return;
+    }
+
+    debug('kill ' + self.deviceId);
+
+    androidCtrl.stop(self.deviceId).then(function() {
+      debug('killed ' + self.deviceId);
+      self.deviceId = undefined;
+    });
+  });
+
   self._start = function(url) {
     var deviceStarted = androidCtrl.startOrCreate({
       'hw.gpu.enabled': 'yes'
