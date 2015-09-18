@@ -1,6 +1,6 @@
 {
   "name": "karma-android-launcher",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Test in Chrome and Firefox on Android using karma",
   "main": "index.js",
   "repository": {
