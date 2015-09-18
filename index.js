@@ -24,7 +24,9 @@ var AndroidBrowser = function(baseBrowserDecorator, script, args) {
   self.name = script;
 
   self._start = function(url) {
-    var deviceStarted = androidCtrl.startOrCreate();
+    var deviceStarted = androidCtrl.startOrCreate({
+      'hw.gpu.enabled': 'yes'
+    });
     var deviceId = deviceStarted.then(function(device) {
       return device.id;
     });
