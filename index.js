@@ -25,7 +25,7 @@ var AndroidBrowser = function(baseBrowserDecorator, script, args) {
 
   self.removeListener('kill', self._events.kill);
 
-  self.on('kill', function() {
+  self.on('kill', function(done) {
     if (!self.deviceId) {
       warn('No device to kill');
       // no emulator to kill
@@ -37,6 +37,8 @@ var AndroidBrowser = function(baseBrowserDecorator, script, args) {
     androidCtrl.stop(self.deviceId).then(function() {
       debug('killed ' + self.deviceId);
       self.deviceId = undefined;
+      self._done();
+      done();
     });
   });
 
