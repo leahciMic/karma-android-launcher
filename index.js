@@ -11,7 +11,7 @@ var path = require('path');
 var preserve = require('promise-preserve');
 
 var CHROME_APK_URL = 'http://mars.androidapksfree.com/files/pluto/com.android.chrome-v44.0.2403.128-240312811-x86-Android-5.0.apk';
-var FIREFOX_APK_URL = 'https://ftp.mozilla.org/pub/mozilla.org/mobile/releases/latest/android-x86/en-US/fennec-40.0.en-US.android-i386.apk';
+var FIREFOX_APK_URL = 'https://ftp.mozilla.org/pub/mobile/releases/41.0.2/android-x86/en-US/fennec-41.0.2.en-US.android-i386.apk';
 
 var AndroidBrowser = function(baseBrowserDecorator, script, args) {
   baseBrowserDecorator(this);
@@ -41,19 +41,19 @@ var AndroidBrowser = function(baseBrowserDecorator, script, args) {
   });
 
   self._start = function(url) {
-    var deviceStarted = androidCtrl.startOrCreate({
-      'hw.gpu.enabled': 'yes'
-    });
+    var packageName = self.className.split('/')[0];
+    var browser = packageName === 'com.android.chrome' ? 'chrome' : 'firefox';
+    var apkURL = browser === 'chrome' ? CHROME_APK_URL : FIREFOX_APK_URL;
+    var deviceStarted = androidCtrl.startOrCreate(
+      'android-' + browser,
+      {
+        'hw.gpu.enabled': 'yes'
+      }
+    );
 
     var deviceId = deviceStarted.then(function(device) {
       return device.id;
     });
-
-    var packageName = self.className.split('/')[0];
-    var apkURL = (packageName === 'com.android.chrome' ?
-      CHROME_APK_URL :
-      FIREFOX_APK_URL
-    );
 
     return deviceId
       .then(function(deviceId) {

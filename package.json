@@ -13,15 +13,15 @@
   "author": "Michael Leaney <leahcimic@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "androidctrl": "^1.0.4",
+    "androidctrl": "^1.2.1",
     "bluebird": "^2.10.0",
     "debug": "^2.2.0",
     "ezspawn": "^1.0.0",
-    "persist-request": "^1.0.2",
+    "persist-request": "^1.2.2",
     "promise-preserve": "^1.0.2",
     "promise-retry": "^0.2.9",
     "request": "^2.62.0",
-    "spawn-wait-for": "^1.0.0",
+    "spawn-wait-for": "^1.1.0",
     "split": "^1.0.0",
     "tmp": "0.0.27"
   }
